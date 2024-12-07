@@ -1,0 +1,27 @@
+version: '3.9'
+
+services:
+  gitlab:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: gitlab
+    ports:
+      - "80:80"
+      - "443:443"
+      - "2022:22"
+    volumes:
+      - gitlab_config:/etc/gitlab
+      - gitlab_logs:/var/log/gitlab
+      - gitlab_data:/var/opt/gitlab
+    environment:
+      GITLAB_OMNIBUS_CONFIG: |
+        external_url 'http://gitlab.vlne.lan'
+        package['modify_kernel_parameters'] = false
+    restart: always
+    privileged: true
+
+volumes:
+  gitlab_config:
+  gitlab_logs:
+  gitlab_data:

@@ -1,0 +1,15 @@
+- name: Add GitLab packages
+  shell: curl -sS https://packages.gitlab.com/install/repositories/gitlab/gitlab-ce/script.deb.sh | sudo bash
+
+- name: Install GitLab
+  apt:
+    name: gitlab-ce
+    state: present
+    update_cache: yes
+
+- name: Change Gitlab url
+  lineinfile:
+    path: /etc/gitlab/gitlab.rb
+    regexp: '^external_url'
+    line: "external_url 'http://gitlab.vlne.lan'"
+  notify: reconfigure gitlab

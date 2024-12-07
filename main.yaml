@@ -1,0 +1,7 @@
+- name: Install dependencies
+  hosts: gitlab
+  become: yes
+  roles:
+    - common
+    - bdd
+    - gitlab

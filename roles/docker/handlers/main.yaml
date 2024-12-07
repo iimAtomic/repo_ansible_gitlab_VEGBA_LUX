@@ -1,0 +1,8 @@
+- name: Exécuter gitlab-ctl reconfigure dans le conteneur
+  shell: |
+    docker exec gitlab gitlab-ctl reconfigure
+  notify: Exécuter gitlab-ctl restart dans le conteneur
+  
+- name: Exécuter gitlab-ctl restart dans le conteneur
+  shell: |
+    docker exec gitlab gitlab-ctl restart

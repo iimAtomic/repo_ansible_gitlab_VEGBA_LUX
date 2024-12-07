@@ -1,0 +1,7 @@
+packages:
+- name: curl
+- name: openssh-server
+- name: ca-certificates
+- name: perl
+- name: vim
+- name: net-tools

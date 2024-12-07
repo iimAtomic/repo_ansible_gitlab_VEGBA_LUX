@@ -1,0 +1,45 @@
+- name: Installer les paquets requis pour Docker
+  apt:
+    name: "{{ item }}"
+    state: present
+    update_cache: yes
+  loop: "{{ docker_dependencies }}"
+
+- name: Créer le répertoire /home/gitlab
+  file:
+    path: /home/gitlab
+    state: directory
+    mode: '0755'
+
+- name: Copier le Dockerfile
+  copy:
+    src: ./Dockerfile
+    dest: /home/gitlab/Dockerfile
+
+- name: Copier le fichier docker-compose.yaml
+  copy:
+    src: ./docker-compose.yaml
+    dest: /home/gitlab/docker-compose.yaml
+
+- name: Créer les volumes Docker
+  command: docker volume create "{{ item }}"
+  loop: "{{ docker_volumes }}"
+  ignore_errors: yes
+
+- name: Construire l'image Docker GitLab
+  command:
+    cmd: docker-compose build
+    chdir: /home/gitlab
+
+- name: Lancer le conteneur
+  command:
+    cmd: docker-compose up -d
+    chdir: /home/gitlab
+
+- name: Changer l'URL de GitLab
+  shell: |
+    docker exec gitlab bash -c "sed -i 's/^external_url/#external_url/' /etc/gitlab/gitlab.rb && \
+    echo \"external_url '{{ gitlab_external_url }}'\" >> /etc/gitlab/gitlab.rb"
+  notify: Exécuter gitlab-ctl reconfigure dans le conteneur
+
+

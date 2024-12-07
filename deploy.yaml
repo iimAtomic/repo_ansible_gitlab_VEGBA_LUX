@@ -1,0 +1,5 @@
+- name: Déployer GitLab avec Docker Compose
+  hosts: gitlab
+  become: yes
+  roles:
+    - docker

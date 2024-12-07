@@ -1,0 +1,9 @@
+docker_dependencies:
+  - curl
+  - docker.io
+  - docker-compose
+
+docker_volumes:
+  - gitlab_config
+  - gitlab_logs
+  - gitlab_data
