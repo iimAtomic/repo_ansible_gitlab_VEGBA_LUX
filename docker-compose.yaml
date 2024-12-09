@@ -7,18 +7,19 @@ services:
       dockerfile: Dockerfile
     container_name: gitlab
     ports:
-      - "80:80"
-      - "443:443"
-      - "2022:22"
+      - "8080:80"       # Change le port HTTP hôte si le port 80 est occupé
+      - "8443:443"      # Change le port HTTPS hôte si le port 443 est occupé
+      - "2022:22"       # SSH
     volumes:
       - gitlab_config:/etc/gitlab
       - gitlab_logs:/var/log/gitlab
       - gitlab_data:/var/opt/gitlab
     environment:
       GITLAB_OMNIBUS_CONFIG: |
-        external_url 'http://gitlab.vlne.lan'
+        external_url 'http://gitlab.example.com'
+        gitlab_rails['gitlab_shell_ssh_port'] = 2022  # Configure le port SSH
         package['modify_kernel_parameters'] = false
-    restart: always
+    restart: unless-stopped  # Redémarre le conteneur sauf si vous l'arrêtez manuellement
     privileged: true
 
 volumes:
