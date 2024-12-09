@@ -13,3 +13,10 @@
     regexp: '^external_url'
     line: "external_url 'http://gitlab.vlne.lan'"
   notify: reconfigure gitlab
+
+- name: reconfigure gitlab
+  command: gitlab-ctl reconfigure
+  notify: restart gitlab
+
+- name: restart gitlab
+  command: gitlab-ctl restart

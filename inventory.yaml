@@ -1,3 +1,5 @@
 gitlab:
     hosts:
-      192.168.230.133
+      172.16.12.132
+
+#ip de ma machine gitlab
